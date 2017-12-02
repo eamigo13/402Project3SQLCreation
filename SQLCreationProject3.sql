@@ -1,149 +1,150 @@
 CREATE TABLE [Service] (
-  [ServiceID] <type>,
-  [ServiceType] <type>,
-  [ServiceTotal] <type>,
-  [CustomerID] <type>,
-  [PaymentID] <type>,
+  [ServiceID] [int],
+  [ServiceType] [nvarchar] (5),
+  [ServiceTotal] [money],
+  [CustomerID] [int],
+  [PaymentID] [int],
   PRIMARY KEY ([ServiceID])
 );
 
 CREATE INDEX [FK] ON  [Service] ([CustomerID], [PaymentID]);
 
 CREATE TABLE [Condition] (
-  [ConditionID] <type>,
-  [ConditionDesc] <type>,
+  [ConditionID] [int],
+  [ConditionDesc] [nvarchar] (50),
   PRIMARY KEY ([ConditionID])
 );
 
 CREATE TABLE [Instrument] (
-  [InstrumentID] <type>,
-  [Size] <type>,
-  [CaseIncluded] <type>,
-  [ExtraInfo] <type>,
-  [MonthlyPrice] <type>,
-  [CategoryID] <type>,
-  [ItemID] <type>,
+  [InstrumentID] [int],
+  [Size] [nvarchar] (10),
+  [CaseIncluded] [bool],
+  [ExtraInfo] [nvarchar] (50),
+  [MonthlyPrice] [money],
+  [CategoryID] [int],
+  [ItemID] [int],
   PRIMARY KEY ([InstrumentID])
 );
 
 CREATE INDEX [FK] ON  [Instrument] ([CategoryID], [ItemID]);
 
 CREATE TABLE [Payment] (
-  [PaymentID] <type>,
-  [PaymentDate] <type>,
-  [PaymentAmount] <type>,
+  [PaymentID] [int],
+  [PaymentDate] [datetime],
+  [PaymentAmount] [money],
   PRIMARY KEY ([PaymentID])
 );
 
 CREATE TABLE [Accessory] (
-  [AccessoryID] <type>,
-  [ReturnAllowed] <type>,
-  [ItemID] <type>,
+  [AccessoryID] [int],
+  [ReturnAllowed] [bool],
+  [ItemID] [int],
   PRIMARY KEY ([AccessoryID])
 );
 
 CREATE INDEX [FK] ON  [Accessory] ([ItemID]);
 
 CREATE TABLE [Repair] (
-  [RepairEstimate] <type>,
-  [ServiceID] <type>
+  [RepairEstimate] [money],
+  [ServiceID] [int]
 );
 
 CREATE INDEX [FK] ON  [Repair] ([ServiceID]);
 
 CREATE TABLE [Room] (
-  [RoomNumber] <type>,
-  [RoomDesc] <type>,
-  [HourlyRate] <type>,
-  [ReservationID] <type>,
+  [RoomNumber] [int],
+  [RoomDesc] [nvarchar] (100),
+  [HourlyRate] [money],
+  [ReservationID] [int],
   PRIMARY KEY ([RoomNumber])
 );
 
 CREATE INDEX [FK] ON  [Room] ([ReservationID]);
 
 CREATE TABLE [Category] (
-  [CategoryID] <type>,
-  [CategoryDesc] <type>,
+  [CategoryID] [int],
+  [CategoryDesc] [nvarchar] (20),
   PRIMARY KEY ([CategoryID])
 );
 
 CREATE TABLE [Item] (
-  [ItemID] <type>,
-  [Brand] <type>,
-  [Color] <type>,
-  [Year] <type>,
-  [Price] <type>,
-  [InstrumentID] <type>,
-  [AccessoryID] <type>,
-  [ConditionID] <type>,
+  [ItemID] [int],
+  [Brand] [nvarchar] (50),
+  [Color] [nvarchar] (20),
+  [Year] [date],
+  [Price] [money],
+  [InstrumentID] [int],
+  [AccessoryID] [int],
+  [ConditionID] [int],
   PRIMARY KEY ([ItemID])
 );
 
 CREATE INDEX [FK] ON  [Item] ([InstrumentID], [AccessoryID], [ConditionID]);
 
 CREATE TABLE [Order Line Item] (
-  [ItemID] <type>,
-  [Quantity] <type>,
-  [OrderID] <type>
+  [ItemID] [int],
+  [Quantity] [int],
+  [OrderID] [int]
 );
 
 CREATE INDEX [FK] ON  [Order Line Item] ([ItemID], [OrderID]);
 
 CREATE TABLE [Reservation] (
-  [ReservationID] <type>,
-  [ReservationStartDateTime] <type>,
-  [ReservationEndDateTime] <type>,
-  [Weekly (bool)] <type>,
-  [RoomNumber] <type>,
-  [CustomerID] <type>,
-  [PaymentID] <type>,
+  [ReservationID] [int],
+  [ReservationStartDateTime] [datetime],
+  [ReservationEndDateTime] [datetime],
+  [Weekly (bool)] [bool],
+  [RoomNumber] [int],
+  [CustomerID] [int],
+  [PaymentID] [int],
   PRIMARY KEY ([ReservationID])
 );
 
 CREATE INDEX [FK] ON  [Reservation] ([RoomNumber], [CustomerID], [PaymentID]);
 
 CREATE TABLE [Contract] (
-  [ContractID] <type>,
-  [ContractTerms] <type>,
-  [RentalDuration] <type>,
-  [CreditCheck] <type>,
-  [ContractStartDate] <type>,
-  [ContractEndDate] <type>,
-  [PurchaseType] <type>,
-  [CustomerID] <type>,
-  [InstrumentID] <type>,
-  [PaymentID] <type>,
+  [ContractID] [int],
+  [ContractTerms] [nvarchar] (1000),
+  [RentalDuration] [int],
+  [CreditCheck] [bool],
+  [ContractStartDate] [date],
+  [ContractEndDate] [date],
+  [PurchaseType] [nvarchar] (20),
+  [CustomerID] [int],
+  [InstrumentID] [int],
+  [PaymentID] [int],
   PRIMARY KEY ([ContractID])
 );
 
 CREATE INDEX [FK] ON  [Contract] ([CustomerID], [InstrumentID], [PaymentID]);
 
 CREATE TABLE [Teacher] (
-  [TeacherID] <type>,
-  [TeacherFirstName] <type>,
-  [TeacherLastName] <type>,
-  [TeacherEmail] <type>,
-  [TeacherPhone] <type>,
-  [TeacherCredentials] <type>,
-  [TeacherAvailability] <type>,
+  [TeacherID] [int],
+  [TeacherFirstName] [nvarchar] (50),
+  [TeacherLastName] [nvarchar] (50),
+  [TeacherEmail] [nvarchar] (50),
+  [TeacherPhone] [phone],
+  [TeacherCredentials] [nvarchar] (50),
+  [TeacherAvailability] [nvarchar] (200),
   PRIMARY KEY ([TeacherID])
 );
 
 CREATE TABLE [Order] (
-  [OrderID] <type>,
-  [PurchaseType] <type>,
-  [OrderTotal] <type>,
-  [CustomerID] <type>,
-  [PaymentID] <type>,
+  [OrderID] [int],
+  [PurchaseType] [nvarchar] (20),
+  [OrderTotal] [money],
+  [CustomerID] [int],
+  [PaymentID] [int],
   PRIMARY KEY ([OrderID])
 );
 
 CREATE INDEX [FK] ON  [Order] ([CustomerID], [PaymentID]);
 
 CREATE TABLE [Customer] (
-  [CustomerID] <type>,
-  [CustomerName] <type>,
-  [CustomerAddress] <type>,
+  [CustomerID] [int],
+  [CustomerName] [nvarchar] (50),
+  [CustomerAddress] [nvarchar] (150),
   PRIMARY KEY ([CustomerID])
 );
+
 
